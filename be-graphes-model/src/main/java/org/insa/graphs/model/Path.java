@@ -198,11 +198,42 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
+     *
      */
     public boolean isValid() {
         // TODO:
-        return false;
+    	System.out.println("\nAppel");
+    	System.out.println(arcs);
+    	System.out.println(arcs.size());
+    	boolean result = true; 
+    	
+    	System.out.println("test 1 try");
+    	if (isEmpty() | size()==1 ) {return true ;} // if it is empty then true 
+    	System.out.println("test 1 end");
+    	
+        for (int counter = 0; counter < arcs.size(); counter++) { 	
+        	System.out.println(counter+" tours de boucle");
+        	System.out.println(arcs.get(counter)); 
+        	
+        	if (counter == 0) // si premier élément, alors on regarde se l'origine est le path 
+        	{
+            	System.out.println("test 2 try");
+        		if (this.getOrigin()!=arcs.get(0).getOrigin()) {return false;} // the first arc has for origin the origin of the path
+            	System.out.println("test 2 end");
+        	}
+        	else // pour les autres éléments que le premier, alors on check les origins / destinations  
+        	{
+            	System.out.println("test 3 try");
+        		if (arcs.get(counter-1).getDestination() != arcs.get(counter).getOrigin()) {return false;}
+            	System.out.println("test 3 end");
+        	}
+        	
+            		
+        }   	
+
+
+
+        return result ;
     }
 
     /**

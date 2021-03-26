@@ -111,14 +111,15 @@ public class PathTest {
 
     @Test
     public void testIsValid() {
+    	System.out.println("Is Valid Depart");
         assertTrue(emptyPath.isValid());
         assertTrue(singleNodePath.isValid());
         assertTrue(shortPath.isValid());
         assertTrue(longPath.isValid());
         assertTrue(loopPath.isValid());
         assertTrue(longLoopPath.isValid());
-
         assertFalse(invalidPath.isValid());
+        System.out.println("Is Valid Fin");
     }
 
     @Test
