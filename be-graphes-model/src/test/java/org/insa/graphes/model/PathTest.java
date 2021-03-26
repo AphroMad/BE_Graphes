@@ -123,25 +123,28 @@ public class PathTest {
 
     @Test
     public void testGetLength() {
+    	System.out.println("get Length Depart");
         assertEquals(0, emptyPath.getLength(), 1e-6);
         assertEquals(0, singleNodePath.getLength(), 1e-6);
         assertEquals(40, shortPath.getLength(), 1e-6);
         assertEquals(62.8, longPath.getLength(), 1e-6);
         assertEquals(55, loopPath.getLength(), 1e-6);
         assertEquals(120, longLoopPath.getLength(), 1e-6);
-        
+        System.out.println("get Length Fin");
     }
 
     @Test
     public void testGetTravelTime() {
         // Note: 18 km/h = 5m/s
+    	System.out.println("Travel time 18 km/h Depart");
         assertEquals(0, emptyPath.getTravelTime(18), 1e-6);
         assertEquals(0, singleNodePath.getTravelTime(18), 1e-6);
         assertEquals(8, shortPath.getTravelTime(18), 1e-6);
         assertEquals(12.56, longPath.getTravelTime(18), 1e-6);
         assertEquals(11, loopPath.getTravelTime(18), 1e-6);
         assertEquals(24, longLoopPath.getTravelTime(18), 1e-6);
-
+        System.out.println("Travel time 18 km/h Fin");
+        System.out.println("Travel time 28.8 km/h Depart");
         // Note: 28.8 km/h = 8m/s
         assertEquals(0, emptyPath.getTravelTime(28.8), 1e-6);
         assertEquals(0, singleNodePath.getTravelTime(28.8), 1e-6);
@@ -149,6 +152,7 @@ public class PathTest {
         assertEquals(7.85, longPath.getTravelTime(28.8), 1e-6);
         assertEquals(6.875, loopPath.getTravelTime(28.8), 1e-6);
         assertEquals(15, longLoopPath.getTravelTime(28.8), 1e-6);
+        System.out.println("Travel time 28.8 km/h Fin");
     }
 
     @Test

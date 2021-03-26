@@ -215,11 +215,9 @@ public class Path {
     public float getLength() {
         // TODO:
     	float length= 0 ; 
-    	System.out.println(this);
     	for (Arc arc : arcs) {
     		length += (arc.getLength());
     		}
-    	System.out.println(length);
         return length;
     }
 
@@ -231,11 +229,14 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+    	float travelTime= 0 ; 
+    	for (Arc arc : arcs) {
+    		travelTime += (arc.getTravelTime(speed));
+    		}
+        return travelTime;
     }
 
     /**
