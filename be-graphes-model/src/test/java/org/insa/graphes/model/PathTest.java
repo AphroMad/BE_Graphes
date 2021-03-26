@@ -129,6 +129,7 @@ public class PathTest {
         assertEquals(62.8, longPath.getLength(), 1e-6);
         assertEquals(55, loopPath.getLength(), 1e-6);
         assertEquals(120, longLoopPath.getLength(), 1e-6);
+        
     }
 
     @Test
