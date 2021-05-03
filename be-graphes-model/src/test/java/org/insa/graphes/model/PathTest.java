@@ -137,6 +137,7 @@ public class PathTest {
     @Test
     public void testGetTravelTime() {
         // Note: 18 km/h = 5m/s
+    	System.out.println("Get Travel Time départ");
     	System.out.println("Travel time 18 km/h Depart");
         assertEquals(0, emptyPath.getTravelTime(18), 1e-6);
         assertEquals(0, singleNodePath.getTravelTime(18), 1e-6);
@@ -155,6 +156,7 @@ public class PathTest {
         assertEquals(6.875, loopPath.getTravelTime(28.8), 1e-6);
         assertEquals(15, longLoopPath.getTravelTime(28.8), 1e-6);
         System.out.println("Travel time 28.8 km/h Fin");
+        System.out.println("Get Travel Time fin");
     }
 
     @Test
@@ -173,7 +175,7 @@ public class PathTest {
     public void testCreateFastestPathFromNodes() {
         Path path;
         Arc[] expected;
-
+        System.out.println("Create Fastest Path Debut ");
         // Simple construction
         path = Path.createFastestPathFromNodes(graph,
                 Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2] }));
@@ -202,6 +204,7 @@ public class PathTest {
         assertEquals(null, path.getOrigin());
         assertEquals(0, path.getArcs().size());
         assertTrue(path.isEmpty());
+        System.out.println("Create Fastest Path Fin ");
     }
 
     @Test
@@ -210,9 +213,12 @@ public class PathTest {
         Arc[] expected;
 
         // Simple construction
+        
+
         path = Path.createShortestPathFromNodes(graph,
                 Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2] }));
         expected = new Arc[] { a2b, b2c };
+        //System.out.println("Expected : "+expected);
         assertEquals(expected.length, path.getArcs().size());
         for (int i = 0; i < expected.length; ++i) {
             assertEquals(expected[i], path.getArcs().get(i));
@@ -246,6 +252,7 @@ public class PathTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateShortestPathFromNodesException() {
+    	System.out.println("Error (c'est normal)");
         Path.createShortestPathFromNodes(graph, Arrays.asList(new Node[] { nodes[1], nodes[0] }));
     }
 

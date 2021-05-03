@@ -30,12 +30,59 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+
+            //List<Arc>  succesors = nodes.get(0).getSuccessors();
+            // TODO:
+            
+            double C = 0;
+             if (nodes.size()==0) {
+                 //System.out.println("size =0");
+                 return new Path(graph);
+             }
+             else if (nodes.size()==1) {
+                 //System.out.println("size = 1");
+                 return new Path(graph,nodes.get(0));
+             }
+             
+                 for (int i =0;i< nodes.size()-1;i++){
+                     //System.out.println("i="+i);
+                     double shortest = 100000;
+                    int shortarc = 0;    
+                     // & nodes.get(i).getSuccessors().get(j).getDestination()==nodes.get(i+1)
+                     for(int j = 0; j < nodes.get(i).getNumberOfSuccessors() ;j++) {
+                         //System.out.println(shortest);
+                         if(nodes.get(i).getSuccessors().get(j).getDestination()==nodes.get(i+1)) {
+                             
+                             //System.out.println("j="+j);
+                             C = nodes.get(i).getSuccessors().get(j).getMinimumTravelTime();
+                             if (C < shortest) {
+                                 shortest = C;
+                                 shortarc = j;
+                             }
+                         }
+                         
+           
+                     }
+                     if ( shortest == 100000 ) {
+                         //System.out.println("excpetion");
+                          throw new IllegalArgumentException("pas de sucesseur");
+                          
+                      }
+                     
+                //    System.out.println(shortest);
+                //    System.out.println(nodes.get(i).getSuccessors().get(shortarc).getLength());
+                    arcs.add(nodes.get(i).getSuccessors().get(shortarc));
+                    
+                }
+            
+           
+          
+           //System.out.println("FIN");
         return new Path(graph, arcs);
     }
 
@@ -50,16 +97,62 @@ public class Path {
      * 
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
-     * 
-     * @deprecated Need to be implemented.
+     * createShortestPathFromNodes
+     *
      */
+ 
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
+        //List<Arc>  succesors = nodes.get(0).getSuccessors();
         // TODO:
-        return new Path(graph, arcs);
-    }
-
+        
+        float C = 0;
+         if (nodes.size()==0) {
+             //System.out.println("size =0");
+             return new Path(graph);
+         }
+         else if (nodes.size()==1) {
+             //System.out.println("size = 1");
+             return new Path(graph,nodes.get(0));
+         }
+         
+             for (int i =0;i< nodes.size()-1;i++){
+                 //System.out.println("i="+i);
+                 float shortest = 100000;
+                int shortarc = 0;    
+                 // & nodes.get(i).getSuccessors().get(j).getDestination()==nodes.get(i+1)
+                 for(int j = 0; j < nodes.get(i).getNumberOfSuccessors() ;j++) {
+                     //System.out.println(shortest);
+                     if(nodes.get(i).getSuccessors().get(j).getDestination()==nodes.get(i+1)) {
+                         
+                         //System.out.println("j="+j);
+                         C = nodes.get(i).getSuccessors().get(j).getLength();
+                         if (C < shortest) {
+                             shortest = C;
+                             shortarc = j;
+                         }
+                     }
+                     
+       
+                 }
+                 if ( shortest == 100000 ) {
+                     //System.out.println("excpetion");
+                      throw new IllegalArgumentException("pas de sucesseur");
+                      
+                  }
+                 
+            //    System.out.println(shortest);
+            //    System.out.println(nodes.get(i).getSuccessors().get(shortarc).getLength());
+                arcs.add(nodes.get(i).getSuccessors().get(shortarc));
+                
+            }
+        
+       
+      
+       //System.out.println("FIN");
+       return new Path(graph, arcs);
+   }
     /**
      * Concatenate the given paths.
      * 
@@ -202,30 +295,30 @@ public class Path {
      */
     public boolean isValid() {
         // TODO:
-    	System.out.println("\nAppel");
-    	System.out.println(arcs);
-    	System.out.println(arcs.size());
+//    	System.out.println("\nAppel");
+//    	System.out.println(arcs);
+//    	System.out.println(arcs.size());
     	boolean result = true; 
     	
-    	System.out.println("test 1 try");
+    	//System.out.println("test 1 try");
     	if (isEmpty() | size()==1 ) {return true ;} // if it is empty then true 
-    	System.out.println("test 1 end");
+    	//System.out.println("test 1 end");
     	
         for (int counter = 0; counter < arcs.size(); counter++) { 	
-        	System.out.println(counter+" tours de boucle");
-        	System.out.println(arcs.get(counter)); 
+        	//System.out.println(counter+" tours de boucle");
+        	//System.out.println(arcs.get(counter)); 
         	
         	if (counter == 0) // si premier élément, alors on regarde se l'origine est le path 
         	{
-            	System.out.println("test 2 try");
+            	//System.out.println("test 2 try");
         		if (this.getOrigin()!=arcs.get(0).getOrigin()) {return false;} // the first arc has for origin the origin of the path
-            	System.out.println("test 2 end");
+            	//System.out.println("test 2 end");
         	}
         	else // pour les autres éléments que le premier, alors on check les origins / destinations  
         	{
-            	System.out.println("test 3 try");
+            	//System.out.println("test 3 try");
         		if (arcs.get(counter-1).getDestination() != arcs.get(counter).getOrigin()) {return false;}
-            	System.out.println("test 3 end");
+            	//System.out.println("test 3 end");
         	}
         	
             		
