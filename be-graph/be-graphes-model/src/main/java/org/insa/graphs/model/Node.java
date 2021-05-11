@@ -32,7 +32,7 @@ public final class Node implements Comparable<Node> {
      * created (origin to destination) and added to origin. Otherwise, a
      * corresponding backward arc is created and add to destination.
      * </p>
-     * BinaryHeap
+     * 
      * @param origin Origin of the arc.
      * @param destination Destination of the arc.
      * @param length Length of the arc.

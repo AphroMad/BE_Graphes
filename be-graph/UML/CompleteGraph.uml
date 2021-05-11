@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.insa.graphs.model.Arc</OriginalElement>
+  <nodes>
+    <node x="121.21111111111114" y="752.0">org.insa.graphs.model.Path</node>
+    <node x="12.565277777777823" y="0.0">org.insa.graphs.model.RoadInformation</node>
+    <node x="56.21111111111114" y="531.0">org.insa.graphs.model.Graph</node>
+    <node x="0.0" y="442.0">org.insa.graphs.model.Arc</node>
+    <node x="92.43749999999999" y="241.0">org.insa.graphs.model.Node</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.9424141749723145" x="181.5" y="441.5" />
+  <SelectedNodes>
+    <node>org.insa.graphs.model.Arc</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
