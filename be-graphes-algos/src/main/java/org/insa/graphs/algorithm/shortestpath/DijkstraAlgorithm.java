@@ -1,6 +1,7 @@
 package org.insa.graphs.algorithm.shortestpath;
 
 import org.insa.graphs.algorithm.AbstractSolution.Status;
+import org.insa.graphs.algorithm.utils.ElementNotFoundException;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Graph;
@@ -39,43 +40,65 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
            iterationCounter ++ ; // incrémentation de l'itérateur 
      	   Label courant = tasBinaire.deleteMin(); // on enlève le sommet du tas 
      	   courant.setMarque(true); // on marque le sommet a true car on l'a vu 
-     	   //notifyNodeMarked(graph.getNodes().get(courant.getSommet_courant()));
+     	   notifyNodeMarked(graph.getNodes().get(courant.getSommet_courant()));
      	   
 
      	   
      	   
      	   for(Arc arc : graph.getNodes().get(courant.getSommet_courant()).getSuccessors()) { // pour tous les successeurs de x 
      		   Label successor = labels[arc.getDestination().getId()]; // on selectionne le successeur 
-     		   //notifyNodeReached(arc.getDestination());
-     		   if(successor.isMarque()==false) { // si le successor n'a pas été visité 
+     		   if(successor.isMarque()==false  && data.isAllowed(arc)) { // si le successor n'a pas été visité 
      			   if(successor.getCout()> courant.getCout()+data.getCost(arc)) { // si le cout du successeur est supérieur au cout pour arriver au courant + le cout du trajet courant-successeur, alors on va mettre le cout de successeur a jour 
      				   
+     				   if (successor.getPapa()==null) // si le getPapa est nul, jamais visité 
+     				   {
+     					   if (successor.getSommet_courant()==data.getDestination().getId()) 
+     					   {notifyDestinationReached(data.getDestination());}
+     					   else 
+     					   {notifyNodeReached(arc.getDestination());}
+     	
+     				   } 
+     				   else // sinon 
+     				   {tasBinaire.remove(successor);} // on le supprime 
+
+     		
      				   
+     				   /*
      				   if (!Double.isInfinite(successor.getCout())) // si le cout du successeur n'est pas l'infini (cela veut dire, on l'a visité)
      				   { 
      					   System.out.println(successor);
          				   tasBinaire.remove(successor); // alors on le supprime 
          			   }
+     				   */
      				   
-     				   successor.setCout(courant.getCout()+data.getCost(arc)); // on set le cout pour arriver à successor 
+     				   successor.setCout(courant.getCout()+data.getCost(arc)); // on set le cout pour arriver à successor
+     				   //System.out.println(successor.getCout()); 
+     				   successor.setPapa(arc); // on met a jour le papa 
      				   tasBinaire.insert(successor); // on met le successeur dans le tas 
-     				   System.out.println("insertion:"+successor);
+     				   //System.out.println("insertion:"+successor);
      			   }
      		   }
      			   
      	   }
         }
        
-        //notifyDestinationReached(data.getDestination());
-        System.out.println("test"); 
+        
+        //System.out.println("test"); 
         ArrayList<Arc> arcs = new ArrayList<>();
         Arc arc = labels[data.getDestination().getId()].getPapa();
+        double new_cout = 0 ; 
         while (arc != null) {
         	System.out.println(arc.getOrigin()); 
             arcs.add(arc);
             arc = labels[arc.getOrigin().getId()].getPapa();
+            if (arc!=null)
+            {
+	            new_cout = new_cout + data.getCost(arc);
+	            System.out.println(new_cout);
+            }
         }
         // on reverse le path 
+        
         Collections.reverse(arcs);
 
         // Create the final solution.

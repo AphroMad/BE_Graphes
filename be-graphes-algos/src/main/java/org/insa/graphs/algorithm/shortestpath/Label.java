@@ -19,7 +19,6 @@ public class Label implements Comparable<Label>{
         this.papa = null;
     }
     
-    
     public double getCout() {
 		return cout;
 	}
