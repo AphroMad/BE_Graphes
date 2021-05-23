@@ -30,7 +30,7 @@ public abstract class AlgoTest {
     private Graph graphInsa, graphSquare, graphBretagne, graphGuadeloupe;
 
     /**
-     * Class used to store all data related to a path and its computed solutions
+     * Classe utilisée pour stocker les datas en rapport avec les paths et les solutions 
      */
     class PathDataset {
 
@@ -43,23 +43,25 @@ public abstract class AlgoTest {
         ShortestPathSolution optimalSolutionInTime;
         ShortestPathSolution optimalSolutionInLength;
 
-
+        // constructeur 
         PathDataset(Graph graph, Node origin, Node destination) {
             this.pathDataTime = new ShortestPathData(graph, origin, destination, filterTime);
             this.pathDataLength = new ShortestPathData(graph, origin, destination, filterLength);
         }
 
+        
         public ShortestPathData getPathDataTime() {
             return pathDataTime;
         }
 
+        
         public ShortestPathData getPathDataLength() {
             return pathDataLength;
         }
 
         /**
-         * Gets all computed solutions with different filters
-         * @return An array of computed solutions
+         * Calcule toutes les solutions avec les deux filtres 
+         * retourne un array avec les solutions 
          */
         public ArrayList<ShortestPathSolution> getComputedSolutions() {
             return new ArrayList<ShortestPathSolution>() {{
@@ -69,8 +71,8 @@ public abstract class AlgoTest {
         }
 
         /**
-         * Gets all optimal solutions with different filters
-         * @return An array of optimal solutions
+         * Calcule les solutions optimales en fontions des filtres 
+         * retourne un array avec les solutions 
          */
         public ArrayList<ShortestPathSolution> getOptimalSolutions() {
             return new ArrayList<ShortestPathSolution>() {{
@@ -80,8 +82,8 @@ public abstract class AlgoTest {
         }
 
         /**
-         * Gets the initial path data used to compute solutions with different filters
-         * @return An array of initial path data
+         * calcule les solutions en partant du path data initial
+         * retourne un array avec les solutions
          */
         public ArrayList<ShortestPathData> getPathData() {
             return new ArrayList<ShortestPathData>() {{
@@ -109,37 +111,37 @@ public abstract class AlgoTest {
     }
 
     /**
-     * Opens and reads the given graph
-     *
-     * @param map The map to open
-     * @return The graph opened
-     * @throws IOException
+     * Fonction qui ouvre une map
+     * un chemin de map en argument
+     * throw exception si problème 
      */
-    private Graph readGraph(String map) throws IOException {
+    private Graph LectureGraph(String map) throws IOException {
         final GraphReader reader = new BinaryGraphReader(
-                new DataInputStream(new BufferedInputStream(new FileInputStream(System.getProperty("user.dir")+map))));
+                new DataInputStream(new BufferedInputStream(new FileInputStream(map))));
         return reader.read();
     }
 
     /**
-     * Loads all graphs for later use
-     * @throws IOException
+     * On charge les graphes 
      */
     private void initGraphs() throws IOException {
-        graphInsa = readGraph("/../maps/insa.mapgr");
-        graphSquare = readGraph("/../maps/carre.mapgr");
-        graphBretagne = readGraph("/../maps/bretagne.mapgr");
-        graphGuadeloupe = readGraph("/../maps/guadeloupe.mapgr");
+        graphInsa = LectureGraph("../Maps/insa.mapgr");
+        graphSquare = LectureGraph("../Maps/carre.mapgr");
+        graphBretagne = LectureGraph("../Maps/bretagne.mapgr");
+        graphGuadeloupe = LectureGraph("../Maps/guadeloupe.mapgr");
     }
 
     /**
-     * Loads all filters for later use
+     * Charge les filtres 
      */
     private void initFilters() {
         filterLength = ArcInspectorFactory.getAllFilters().get(0);
         filterTime = ArcInspectorFactory.getAllFilters().get(2);
     }
 
+    /**
+     * Pour initialiser un chemin (le graphe, le départ et l'arrivée) 
+     */
     private PathDataset getNewPathDataset(Graph graph, int originID, int destinationID) {
         return new PathDataset(
                 graph,
@@ -149,40 +151,41 @@ public abstract class AlgoTest {
     }
 
     /**
-     * Creates valid data sets
+     * On choisit des chemins possibles à faire 
      */
     private void initValidPathList() {
-        validTestData = new ArrayList<>();
-
-        validTestData.add(getNewPathDataset(graphInsa, 512, 526));
-        validTestData.add(getNewPathDataset(graphGuadeloupe, 12822, 13687));
-        validTestData.add(getNewPathDataset(graphSquare, 21, 17));
+        validTestData = new ArrayList<>(); // on créé le tableau 
+        // on le remplit avec différents chemins 
+        validTestData.add(getNewPathDataset(graphInsa, 134, 508)); 
+        validTestData.add(getNewPathDataset(graphGuadeloupe, 7627, 14971));
+        validTestData.add(getNewPathDataset(graphSquare, 18, 21));
     }
 
     /**
-     * Creates invalid data sets
+     * On choisit des chemins impossibles à faire
      */
     private void initInvalidPathList() {
-        invalidTestData = new ArrayList<>();
-
-        invalidTestData.add(getNewPathDataset(graphBretagne, 29270, 545599));
-        invalidTestData.add(getNewPathDataset(graphGuadeloupe, 26963, 4307));
-        invalidTestData.add(getNewPathDataset(graphGuadeloupe, 8185, 8185));
-        invalidTestData.add(getNewPathDataset(graphSquare, 10, 10));
+        invalidTestData = new ArrayList<>(); // on créé le tableau 
+        // on le remplit avec différents chemins 
+        invalidTestData.add(getNewPathDataset(graphBretagne, 316714, 446827));
+        invalidTestData.add(getNewPathDataset(graphGuadeloupe, 23216, 13705));
+        invalidTestData.add(getNewPathDataset(graphGuadeloupe, 27895, 14738));
+        invalidTestData.add(getNewPathDataset(graphSquare, 12, 12));
     }
 
     /**
-     * Init all tests data before starting
+     * On initialise tout avant de commencer les tests
      */
     @Before
     public void init() {
-        initFilters();
+        initFilters(); // on initialise les filtres 
         try {
-            initGraphs();
+            initGraphs(); // on charge les graphes 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initValidPathList();
+        
+        initValidPathList(); // on intialise les chemins pour les tests 
         initInvalidPathList();
 
         computeOptimalPathSolutions();
@@ -191,7 +194,7 @@ public abstract class AlgoTest {
     }
 
     /**
-     * Computes optimal solutions for all tests
+     * Calcule la solution optimale pour chaque test
      */
     private void computeOptimalPathSolutions() {
         for (PathDataset data : validTestData) {
@@ -211,6 +214,9 @@ public abstract class AlgoTest {
     protected abstract void computeInvalidPathSolutions();
 
     @Test
+    /**
+     * Test pour voir si un path est valide
+     */
     public void testPathValid() {
         for (PathDataset data: validTestData) {
             for (ShortestPathSolution solution : data.getComputedSolutions()) {
@@ -221,6 +227,9 @@ public abstract class AlgoTest {
     }
 
     @Test
+    /**
+     * Test pour voir si un path est invalide
+     */
     public void testPathInvalid() {
         for (PathDataset data: invalidTestData) {
             for (ShortestPathSolution solution : data.getComputedSolutions()) {
@@ -229,47 +238,7 @@ public abstract class AlgoTest {
         }
     }
 
-    @Test
-    public void testEndNodes() {
-        for (PathDataset data: validTestData) {
-            ArrayList<ShortestPathData> initialData = data.getPathData();
-            ArrayList<ShortestPathSolution> solutions = data.getComputedSolutions();
-            for (int i = 0; i < solutions.size(); i++) {
-                assertEquals(
-                        initialData.get(i).getOrigin().getId(),
-                        solutions.get(i).getPath().getOrigin().getId()
-                );
-                assertEquals(
-                        initialData.get(i).getDestination().getId(),
-                        solutions.get(i).getPath().getDestination().getId()
-                );
-            }
+  
 
-        }
-    }
-
-    @Test
-    public void testPathOptimalWithOracle() {
-        for (PathDataset data: validTestData) {
-            ArrayList<ShortestPathSolution> optimalSolutions = data.getOptimalSolutions();
-            ArrayList<ShortestPathSolution> computedSolutions = data.getComputedSolutions();
-            for (int i = 0; i < computedSolutions.size(); i++) {
-                assertEquals(
-                        optimalSolutions.get(i).getPath().getLength(),
-                        computedSolutions.get(i).getPath().getLength(),
-                        0.0
-                );
-                assertEquals(
-                        optimalSolutions.get(i).getPath().getMinimumTravelTime(),
-                        computedSolutions.get(i).getPath().getMinimumTravelTime(),
-                        0.0
-                );
-            }
-        }
-    }
-
-    @Test
-    public void testPathOptimalWithoutOracle() {
-        // TODO
-    }
+  
 }

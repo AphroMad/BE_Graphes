@@ -82,28 +82,29 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      	   }
         }
        
-        
-        //System.out.println("test"); 
-        ArrayList<Arc> arcs = new ArrayList<>();
-        Arc arc = labels[data.getDestination().getId()].getPapa();
-        double new_cout = 0 ; 
-        while (arc != null) {
-        	System.out.println(arc.getOrigin()); 
-            arcs.add(arc);
-            arc = labels[arc.getOrigin().getId()].getPapa();
-            if (arc!=null)
-            {
-	            new_cout = new_cout + data.getCost(arc);
-	            System.out.println(new_cout);
-            }
-        }
+        if (labels[data.getDestination().getId()].getPapa() == null) {
+            solution = new ShortestPathSolution(data, Status.INFEASIBLE);
+        } else {
+	        //System.out.println("test"); 
+	        ArrayList<Arc> arcs = new ArrayList<>();
+	        Arc arc = labels[data.getDestination().getId()].getPapa();
+	        double new_cout = 0 ; 
+	        while (arc != null) {
+	        	System.out.println(arc.getOrigin()); 
+	            arcs.add(arc);
+	            arc = labels[arc.getOrigin().getId()].getPapa();
+	            if (arc!=null)
+	            {
+		            new_cout = new_cout + data.getCost(arc);
+		            System.out.println(new_cout);
+	            }
+	        }
         // on reverse le path 
         
-        Collections.reverse(arcs);
-
-        // Create the final solution.
-        solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
-        
+	        Collections.reverse(arcs);
+	     // Create the final solution.
+	        solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
+        }
         return solution; 
     }
     
