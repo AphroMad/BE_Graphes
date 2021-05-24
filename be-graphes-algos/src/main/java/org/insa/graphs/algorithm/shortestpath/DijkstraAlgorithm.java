@@ -29,15 +29,17 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             labels[i] = new Label(i);
             
         }
+        return this.doDijkstra(labels, data, graph);
+    }
         
+    protected ShortestPathSolution doDijkstra(Label[] labels, ShortestPathData data, Graph graph) {
         labels[data.getOrigin().getId()].setCout(0);// pour set le cout du premier a 0  
         BinaryHeap<Label> tasBinaire = new BinaryHeap<Label>(); // déclaration du tas 
         tasBinaire.insert(labels[data.getOrigin().getId()]); // on insert le premier dedans
-        int iterationCounter = 0; // on initialise le compter à 0 
+
         
         while(!tasBinaire.isEmpty() && labels[data.getDestination().getId()].isMarque()==false) // tant qu'il existe des sommets non marqués 
         {
-           iterationCounter ++ ; // incrémentation de l'itérateur 
      	   Label courant = tasBinaire.deleteMin(); // on enlève le sommet du tas 
      	   courant.setMarque(true); // on marque le sommet a true car on l'a vu 
      	   notifyNodeMarked(graph.getNodes().get(courant.getSommet_courant()));
@@ -62,14 +64,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      				   {tasBinaire.remove(successor);} // on le supprime 
 
      		
-     				   
-     				   /*
-     				   if (!Double.isInfinite(successor.getCout())) // si le cout du successeur n'est pas l'infini (cela veut dire, on l'a visité)
-     				   { 
-     					   System.out.println(successor);
-         				   tasBinaire.remove(successor); // alors on le supprime 
-         			   }
-     				   */
+
      				   
      				   successor.setCout(courant.getCout()+data.getCost(arc)); // on set le cout pour arriver à successor
      				   //System.out.println(successor.getCout()); 
@@ -81,7 +76,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      			   
      	   }
         }
-       
+        
+        ShortestPathSolution solution;
         if (labels[data.getDestination().getId()].getPapa() == null) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         } else {
@@ -107,13 +103,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         return solution; 
     }
-    
-    
-   
-    
-    
-    
-    
-    
-    
 }
+
+
