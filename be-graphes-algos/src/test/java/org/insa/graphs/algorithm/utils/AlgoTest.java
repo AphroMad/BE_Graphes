@@ -37,10 +37,10 @@ public abstract class AlgoTest {
         ShortestPathData pathDataTime;
         ShortestPathData pathDataLength;
 
-        ShortestPathSolution solutionInTime;
+        ShortestPathSolution solutionInTime; // vairblaes qui serviront pour les calculs avec l'algo utilisé 
         ShortestPathSolution solutionInLength;
 
-        ShortestPathSolution optimalSolutionInTime;
+        ShortestPathSolution optimalSolutionInTime; // variables qui serviront pour les calculs avec BF 
         ShortestPathSolution optimalSolutionInLength;
 
         // constructeur 
@@ -61,6 +61,7 @@ public abstract class AlgoTest {
 
         /**
          * Calcule toutes les solutions avec les deux filtres 
+         * (solution calculées  avec l'algo choisi (Dijkstra / a*) 
          * retourne un array avec les solutions 
          */
         public ArrayList<ShortestPathSolution> getComputedSolutions() {
@@ -72,6 +73,7 @@ public abstract class AlgoTest {
 
         /**
          * Calcule les solutions optimales en fontions des filtres 
+         * (solution calculées avec Bellman Ford)
          * retourne un array avec les solutions 
          */
         public ArrayList<ShortestPathSolution> getOptimalSolutions() {
@@ -92,6 +94,7 @@ public abstract class AlgoTest {
             }};
         }
 
+        // fonctions servant a set les solutions 
         public void setSolutionInLength(ShortestPathSolution solutionInLength) {
             this.solutionInLength = solutionInLength;
         }
@@ -170,6 +173,7 @@ public abstract class AlgoTest {
         invalidTestData.add(getNewPathDataset(graphBretagne, 316714, 446827));
         invalidTestData.add(getNewPathDataset(graphGuadeloupe, 23216, 13705));
         invalidTestData.add(getNewPathDataset(graphGuadeloupe, 27895, 14738));
+        
         invalidTestData.add(getNewPathDataset(graphSquare, 12, 12));
     }
 
@@ -194,7 +198,7 @@ public abstract class AlgoTest {
     }
 
     /**
-     * Calcule la solution optimale pour chaque test
+     * Calcule la solution optimale pour chaque test (i.e. ce que calcule Bellman Ford)
      */
     private void computeOptimalPathSolutions() {
         for (PathDataset data : validTestData) {
@@ -204,12 +208,12 @@ public abstract class AlgoTest {
     }
 
     /**
-     * Computes valid path using the chosen algorithm
+     * Calcule des path juste en fonction de l'algo choisi
      */
     protected abstract void computeValidPathSolutions();
 
     /**
-     * Computes invalid paths using the chosen algorithm
+     * Calcule des faux path en fonction de l'algo choisi 
      */
     protected abstract void computeInvalidPathSolutions();
 
@@ -238,6 +242,32 @@ public abstract class AlgoTest {
         }
     }
 
+
+    @Test
+    /**
+     * Test avec oracle 
+     * (on compare le résultat ce l'algo BF avec l'algo choisi)
+     */
+    public void testPathOptimalWithOracle() {
+        for (PathDataset data: validTestData) {
+            ArrayList<ShortestPathSolution> optimalSolutions = data.getOptimalSolutions();
+            ArrayList<ShortestPathSolution> computedSolutions = data.getComputedSolutions();
+            //System.out.println("OUI"+computedSolutions); 
+            //System.out.println("Non"+optimalSolutions); 
+            for (int i = 0; i < computedSolutions.size(); i++) {
+                assertEquals(
+                        optimalSolutions.get(i).getPath().getLength(),
+                        computedSolutions.get(i).getPath().getLength(),
+                        0.0
+                );
+                assertEquals(
+                        optimalSolutions.get(i).getPath().getMinimumTravelTime(),
+                        computedSolutions.get(i).getPath().getMinimumTravelTime(),
+                        0.0
+                );
+            }
+        }
+    }
   
 
   

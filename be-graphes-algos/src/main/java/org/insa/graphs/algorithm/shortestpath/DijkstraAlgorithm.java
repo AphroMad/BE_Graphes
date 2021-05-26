@@ -54,6 +54,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      				   
      				   if (successor.getPapa()==null) // si le getPapa est nul, jamais visité 
      				   {
+     					   // juste quelques notifications
      					   if (successor.getSommet_courant()==data.getDestination().getId()) 
      					   {notifyDestinationReached(data.getDestination());}
      					   else 
@@ -63,8 +64,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      				   else // sinon 
      				   {tasBinaire.remove(successor);} // on le supprime 
 
-     		
-
+     	
      				   
      				   successor.setCout(courant.getCout()+data.getCost(arc)); // on set le cout pour arriver à successor
      				   //System.out.println(successor.getCout()); 
@@ -77,22 +77,24 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      	   }
         }
         
-        ShortestPathSolution solution;
-        if (labels[data.getDestination().getId()].getPapa() == null) {
-            solution = new ShortestPathSolution(data, Status.INFEASIBLE);
-        } else {
+        ShortestPathSolution solution; // on créé une var solution sinon java aime pas
+        
+        if (labels[data.getDestination().getId()].getPapa() == null) { // si la destination n'a pas de papa = pas atteignable
+            solution = new ShortestPathSolution(data, Status.INFEASIBLE); // alors on dit que c'est infaisable 
+        } else { // sinon, 
 	        //System.out.println("test"); 
 	        ArrayList<Arc> arcs = new ArrayList<>();
 	        Arc arc = labels[data.getDestination().getId()].getPapa();
 	        double new_cout = 0 ; 
 	        while (arc != null) {
-	        	System.out.println(arc.getOrigin()); 
+	        	//System.out.println(arc.getOrigin()); 
 	            arcs.add(arc);
 	            arc = labels[arc.getOrigin().getId()].getPapa();
+	            // juste pour voir si le cout augmente bien au fur et à mesure
 	            if (arc!=null)
 	            {
 		            new_cout = new_cout + data.getCost(arc);
-		            System.out.println(new_cout);
+		            //System.out.println(new_cout);
 	            }
 	        }
         // on reverse le path 

@@ -6,10 +6,10 @@ import org.insa.graphs.model.Node;
 public class Label implements Comparable<Label>{
 
 	// déclaration des variables 
-	private final int sommet_courant;
-	private double cout;
-    private boolean marque;
-    private Arc papa;
+	private final int sommet_courant; // id du sommet 
+	private double cout; // cout pour y arriver 
+    private boolean marque; // si exploration fini 
+    private Arc papa; // indique l'arc qui pointe vers le papa 
     
     // Constructeur 
     public Label(int sommet_courant) {
