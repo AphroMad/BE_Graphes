@@ -43,13 +43,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      	   Label courant = tasBinaire.deleteMin(); // on enlève le sommet du tas 
      	   courant.setMarque(true); // on marque le sommet a true car on l'a vu 
      	   notifyNodeMarked(graph.getNodes().get(courant.getSommet_courant()));
-     	   
 
-     	   
-     	   
+
      	   for(Arc arc : graph.getNodes().get(courant.getSommet_courant()).getSuccessors()) { // pour tous les successeurs de x 
      		   Label successor = labels[arc.getDestination().getId()]; // on selectionne le successeur 
      		   if(successor.isMarque()==false  && data.isAllowed(arc)) { // si le successor n'a pas été visité 
+     			 
      			   if(successor.getCout()> courant.getCout()+data.getCost(arc)) { // si le cout du successeur est supérieur au cout pour arriver au courant + le cout du trajet courant-successeur, alors on va mettre le cout de successeur a jour 
      				   
      				   if (successor.getPapa()==null) // si le getPapa est nul, jamais visité 
@@ -65,7 +64,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      				   {tasBinaire.remove(successor);} // on le supprime 
 
      	
-     				   
+     				 
      				   successor.setCout(courant.getCout()+data.getCost(arc)); // on set le cout pour arriver à successor
      				   //System.out.println(successor.getCout()); 
      				   successor.setPapa(arc); // on met a jour le papa 

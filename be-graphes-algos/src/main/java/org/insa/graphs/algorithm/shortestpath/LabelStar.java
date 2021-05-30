@@ -6,29 +6,33 @@ public class LabelStar extends Label {
 
     public LabelStar(int associatedNode) {
         super(associatedNode);
-        this.coutEstime = Double.POSITIVE_INFINITY; // on rajoute la distance estimée 
-        // équivalent a une distance à vol d'oiseau pour le A star 
+        this.coutEstime = Double.POSITIVE_INFINITY; // on rajoute le cout estimé 
     }
 
-    public double getEstimeCout() {
+    public double getEstimeCout() { // pour voir le cout estime 
         return coutEstime;
     }
 
-    public void setcoutEstime(double coutEstime) {
+    public void setcoutEstime(double coutEstime) { // pour le set 
         this.coutEstime = coutEstime;
     }
 
     @Override
-    public double getTotalCout() {
+    public double getTotalCout() { // on override pour avoir un total cout = au cout + cout estimé 
         return this.getCout() + this.getEstimeCout();
     }
 
-    @Override
-    public int compareTo(Label label) {
-        final int comparaison = super.compareTo(label);
+    
 
-        return comparaison == 0
-                ? Double.compare(this.getEstimeCout(), label.getTotalCout() - label.getCout())
-                : comparaison;
-    }
+}   
+
+
+/* pas vraiment utile 
+@Override
+public int compareTo(Label label) {
+    final int comparaison = super.compareTo(label);
+    return comparaison == 0
+            ? Double.compare(this.getEstimeCout(), label.getTotalCout() - label.getCout())
+            : comparaison;
 }
+*/
